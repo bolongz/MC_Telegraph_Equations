@@ -146,7 +146,7 @@ def one_item(bz, r, t):
 
 
 
-def wave_sol_2D(r,t):
+def wave_sol(r,t):
     ans = 0.0
     for i in range(NUM):
         _i = i + 1
@@ -158,7 +158,7 @@ def wave_sol_2D(r,t):
 
 
 
-def one_eval_2D(r, t):
+def one_eval(r, t):
     newtimes = randtimes(t)
     #print newtimes
     #n = len(times)
@@ -166,16 +166,16 @@ def one_eval_2D(r, t):
     n = 1
     result = np.empty(n)
     #for i in range(1):
-    result[0] = wave_sol_2D(r, newtimes)
+    result[0] = wave_sol(r, newtimes)
     return result
 
 # retursn a gigantic array with all the calculations inside. For memory efficieny, not necessary
-def F_2D(r, t):
+def mc_method(r, t):
     '''
     n = 1
     result = np.empty((1, N_MC))
     for i in range(N_MC):
-        result[0, i] = one_eval_2D(r, t)
+        result[0, i] = one_eval(r, t)
     return result
     '''
     n = 1
@@ -187,7 +187,7 @@ def F_2D(r, t):
     i = 1;
     err = 0.005
     while( _t > err or i < 100):
-        res = one_eval_2D(r, t)
+        res = one_eval(r, t)
         sum1 = sum1 + res
         sum2 = sum2 + np.square(res)
         if( i > 2):
@@ -213,7 +213,7 @@ for k, r in enumerate(r_tabb):
     plt.clf()
     plt.close()
 
-    res = F_2D(r, t_max)
+    res = mc_method(r, t_max)
     #mean = np.sum(res, axis=1) / N_MC
     print r, res
     e_res.append(res)
@@ -230,7 +230,7 @@ for k, r in enumerate(r_tabb):
 
 print ""
 #print t_tab, deviations
-res_1 = F_2D(1,t_max)
+res_1 = mc_method(1,t_max)
 e_res.append(res_1)
 
 m_res = np.asarray(e_res)

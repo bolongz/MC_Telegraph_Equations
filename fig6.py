@@ -155,7 +155,7 @@ def one_eval(times, points):
         result[i] = sol(newtimes, points[i])
     return result
 
-def F_(times, points):
+def mc_method(times, points):
     #n = 1
     n = len(points)
     result = np.empty((n, N_MC))
@@ -177,7 +177,7 @@ stoch_points = space_points
 #stoch_points = np.array([0.0])
 measuring_time = time.time()
 
-r = F_(stoch_times, stoch_points)
+r =mc_method(stoch_times, stoch_points)
 measuring_time = time.time() - measuring_time
 mean, int_conf = treat_result(stoch_times, stoch_points, r)
 

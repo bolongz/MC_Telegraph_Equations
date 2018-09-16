@@ -40,27 +40,27 @@ ksibar = -a - math.sqrt(a**2 - c**2)
 A = 0.3
 B = -1.
 
-def psi_2D(X):
+def psi(X):
     return math.cos((X[0] + math.sqrt(4) * X[1])/ math.sqrt(5))
 
-def wave_sol_2D(t, X):
+def wave_sol(t, X):
     alpha = A + B
     beta = (A * ksi  + B * ksibar) / c
-    return (alpha * math.cos(c *t) + beta * math.sin(c*t)) * psi_2D(X)
+    return (alpha * math.cos(c *t) + beta * math.sin(c*t)) * psi(X)
 
-def real_sol_2D(t, X):
-   return (A * math.exp(ksi * t) + B * math.exp(ksibar * t) )* psi_2D(X)
+def real_sol(t, X):
+   return (A * math.exp(ksi * t) + B * math.exp(ksibar * t) )* psi(X)
 
-def one_eval_2D(times, points):
+def one_eval(times, points):
     newtimes = randtimes(times)
     n = len(times)
     result = np.empty(n)
     for i in range(n):
-        result[i] = wave_sol_2D(newtimes[i], points[i])
+        result[i] = wave_sol(newtimes[i], points[i])
     return result
 
 
-def F_2D(times, points, err):
+def mc_method(times, points, err):
     n = len(times)
     #result = np.empty((n, N_MC))
     stderr = np.zeros(n)
@@ -71,7 +71,7 @@ def F_2D(times, points, err):
     while( i < N_MC):
     #while( t > err or i < 1000):
     #while( (t > err or i < 1000) and i < 10000):
-        res = one_eval_2D(times, points)
+        res = one_eval(times, points)
         sum1 = sum1 + res
         sum2 = sum2 + np.square(res)
         if( i > 2):
@@ -82,11 +82,6 @@ def F_2D(times, points, err):
         i = i + 1
 
     return sum1 / (i - 1), i - 1
-
-def treat_result_2D(times, points, r):
-    mean = np.sum(r, axis=1) / N_MC
-    int_conf = 1.96 * np.vectorize(math.sqrt)(np.var(r, axis=1) / N_MC)
-    return mean, int_conf
 
 #t_tab = 0.1 * np.arange(1)
 #t_tab = [1.]
@@ -125,13 +120,13 @@ for k, t in enumerate(t_tab):
     start_time = time.time()
 
 
-    mean, steps = F_2D(times, points,err)
+    mean, steps = mc_method(times, points,err)
 
     print t, mean
 
     Z = mean.reshape(2 * nx + 1, 2 * ny + 1)
     time_t = time.time()-start_time
-    real_z = np.array([real_sol_2D(t, point) for point in points])
+    real_z = np.array([real_sol(t, point) for point in points])
     real_z = real_z.reshape((2*nx + 1, 2*ny +1))
 
     print t, real_z

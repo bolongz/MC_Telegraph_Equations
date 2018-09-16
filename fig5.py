@@ -112,7 +112,7 @@ def one_eval(times, points):
         result[i] = sol(newtimes, points[i])
     return result
 
-def F_(times, points, err):
+def mc_method(times, points, err):
     n = len(points)
     stderr = np.zeros(n)
     sum1 = np.zeros(n)
@@ -176,7 +176,7 @@ for i, t in enumerate(tab):
     times = t  #* np.ones(2 * nx + 1)
     points = (np.arange(2 * nx + 1 ) - nx) * h
     start_time = time.time()
-    mean, steps = F_(times, points,err)
+    mean, steps = mc_method(times, points,err)
 
     kacs_time = time.time() - start_time
     line1 =  plt.scatter(points, mean,s = 40, marker = 'o', color = 'r', label =
