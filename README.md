@@ -14,7 +14,7 @@ The Python programs for the pictures in the Paper:
 
 --fig8.py: Figure 8 in the paper
 
-Note: All the problem contains a function using Algorthm1 from the paper
+Note: All the problem contains a function using Algorthm1 from the paper (see function: mc_method inside the code)
 
 The code in the following shows the implementation for the Algorithm 2:
 
