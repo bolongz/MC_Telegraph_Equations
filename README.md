@@ -18,7 +18,7 @@ Note: All the problem contains a function using Algorthm1 from the paper
 
 The code in the following shows the implementation for the Algorithm 2:
 
---alg2.py: Algorithm 2 implementation
+--alg2.py: Implementation for Algorithm 2
 
 
 For comment/question/suggestion, please send me an email:
